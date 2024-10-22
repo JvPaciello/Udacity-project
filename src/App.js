@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Bookshelf from "./components/Bookshelf";
 import SearchPage from "./components/SearchPage";
+import BookDetail from "./components/BookDetail";
 import { getAll, update } from "./BooksAPI";
 
 function App() {
@@ -57,11 +58,17 @@ function App() {
               </div>
             }
           />
-          {/* Search page */}
+
           <Route
             path="/search"
             element={<SearchPage books={books} onMove={moveBook} />}
           />
+
+          <Route
+          path="/book/:id"
+          element={<BookDetail/>}
+          />
+
         </Routes>
       </div>
     </Router>
