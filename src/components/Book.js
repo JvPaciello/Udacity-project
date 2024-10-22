@@ -1,34 +1,41 @@
-function Book({ book, onMove }) {
-    const thumbnail = book.imageLinks?.thumbnail || ""; // Fallback if no thumbnail
-  
-    //Function to check if the book is already on a shelf or not
-    const isOnShelf = book.shelf && book.shelf !== "none";
+import { Link } from "react-router-dom";
 
-    return (
-      <div className="book">
-        <div className="book-top">
+function Book({ book, onMove }) {
+  const thumbnail = book.imageLinks?.thumbnail || "";
+  
+  // Function to check if the book is already on a shelf or not
+  const isOnShelf = book.shelf && book.shelf !== "none";
+
+  
+  return (
+    <div className="book">
+      <div className="book-top">
+        <Link to={`/book/${book.id}`} title="Book details">
           <div
             className="book-cover"
             style={{ width: 128, height: 193, backgroundImage: `url(${thumbnail})` }}
           ></div>
-          <div className="book-shelf-changer">
-            <select
-              value={book.shelf || "none"}
-              onChange={(e) => onMove(book, e.target.value)}
-            >
-              <option value="none" disabled>{isOnShelf ? "Move to..." : "Add to..."}</option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">None</option>
-            </select>
-          </div>
+        </Link>
+        <div className="book-shelf-changer">
+          <select
+            value={book.shelf || "none"}
+            onChange={(e) => onMove(book, e.target.value)}
+          >
+            {/* Display "Add to..." if not on a shelf, otherwise "Move to..." */}
+            <option value="none" disabled>
+              {isOnShelf ? "Move to..." : "Add to..."}
+            </option>
+            <option value="currentlyReading">Currently Reading</option>
+            <option value="wantToRead">Want to Read</option>
+            <option value="read">Read</option>
+            <option value="none">None</option>
+          </select>
         </div>
-        <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors?.join(", ")}</div>
       </div>
-    );
-  }
-  
-  export default Book;
-  
+      <div className="book-title">{book.title}</div>
+      <div className="book-authors">{book.authors?.join(", ")}</div>
+    </div>
+  );
+}
+
+export default Book;

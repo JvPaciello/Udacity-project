@@ -3,31 +3,31 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Bookshelf from "./components/Bookshelf";
 import SearchPage from "./components/SearchPage";
-import BookDetail from "./components/BookDetail";
+import BookDetail from "./components/BookDetail"; // Import BookDetail page
 import { getAll, update } from "./BooksAPI";
 
 function App() {
-  const [books, setBooks] = useState([]); // State to store books
+  const [books, setBooks] = useState([]);
 
-  // Load books from the API when the component mounts
+  const fetchBooks=()=>{
+    getAll().then((data)=>setBooks(data));
+  };
+
+  // Load books from the API when the component mounts  
   useEffect(() => {
-    getAll().then((data) => setBooks(data));
+    fetchBooks();
   }, []);
 
   // Function to move books between shelves and update the state
   const moveBook = (book, shelf) => {
-    update(book, shelf).then(() => {
-      setBooks((prevBooks) =>
-        prevBooks.map((b) => (b.id === book.id ? { ...b, shelf } : b))
-      );
-    });
+    update(book, shelf).then(() => 
+      fetchBooks());
   };
 
   return (
     <Router>
       <div className="app">
         <Routes>
-          {/* Main page displaying bookshelves */}
           <Route
             path="/"
             element={
@@ -58,17 +58,11 @@ function App() {
               </div>
             }
           />
-
-          <Route
-            path="/search"
-            element={<SearchPage books={books} onMove={moveBook} />}
+          <Route 
+            path="/search" 
+            element={<SearchPage books={books} onMove={moveBook} />} 
           />
-
-          <Route
-          path="/book/:id"
-          element={<BookDetail/>}
-          />
-
+          <Route path="/book/:id" element={<BookDetail />} /> {/* New Route */}
         </Routes>
       </div>
     </Router>

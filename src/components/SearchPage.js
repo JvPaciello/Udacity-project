@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { search } from "../BooksAPI";
 import Book from "./Book"; // Correct import
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SearchPage({ books, onMove }) {
   const [query, setQuery] = useState(""); // State for search query
   const [results, setResults] = useState([]); // State for search results
+  const navigate = useNavigate(); // Navigate hook
 
   // Handle user input in the search field
   const handleSearch = (e) => {
@@ -27,6 +28,12 @@ function SearchPage({ books, onMove }) {
     return foundBook ? foundBook.shelf : "none";
   };
 
+  // Function called when a user move a book
+  const handleMove = (book,shelf)=>{
+    onMove(book,shelf);
+    navigate("/");
+  };
+
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -46,7 +53,7 @@ function SearchPage({ books, onMove }) {
             <Book
               key={book.id}
               book={{ ...book, shelf: getShelf(book) }}
-              onMove={onMove}
+              onMove={handleMove}
             />
           ))}
         </ol>
