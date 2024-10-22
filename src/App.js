@@ -3,25 +3,34 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Bookshelf from "./components/Bookshelf";
 import SearchPage from "./components/SearchPage";
-import BookDetail from "./components/BookDetail"; // Import BookDetail page
+import BookDetail from "./components/BookDetail"; 
 import { getAll, update } from "./BooksAPI";
 
 function App() {
   const [books, setBooks] = useState([]);
 
-  const fetchBooks=()=>{
-    getAll().then((data)=>setBooks(data));
+  // Fetch books from the API and update state
+  const fetchBooks = async () => {
+    const data = await getAll();
+    setBooks(data);
   };
 
-  // Load books from the API when the component mounts  
+  // Load books from the API when the component mounts
   useEffect(() => {
     fetchBooks();
   }, []);
 
   // Function to move books between shelves and update the state
   const moveBook = (book, shelf) => {
-    update(book, shelf).then(() => 
-      fetchBooks());
+    if (book.shelf !== shelf) {
+      update(book, shelf).then(() => {
+        // Update the book locally in the state for immediate feedback
+        setBooks((prevBooks) => {
+          const updatedBooks = prevBooks.filter((b) => b.id !== book.id);
+          return [...updatedBooks, { ...book, shelf }];
+        });
+      });
+    }
   };
 
   return (
@@ -40,16 +49,19 @@ function App() {
                     title="Currently Reading"
                     books={books.filter((book) => book.shelf === "currentlyReading")}
                     onMove={moveBook}
+                    shelf="currentlyReading"
                   />
                   <Bookshelf
                     title="Want to Read"
                     books={books.filter((book) => book.shelf === "wantToRead")}
                     onMove={moveBook}
+                    shelf="wantToRead"
                   />
                   <Bookshelf
                     title="Read"
                     books={books.filter((book) => book.shelf === "read")}
                     onMove={moveBook}
+                    shelf="read"
                   />
                 </div>
                 <div className="open-search">
@@ -62,7 +74,7 @@ function App() {
             path="/search" 
             element={<SearchPage books={books} onMove={moveBook} />} 
           />
-          <Route path="/book/:id" element={<BookDetail />} /> {/* New Route */}
+          <Route path="/book/:id" element={<BookDetail />} />
         </Routes>
       </div>
     </Router>
