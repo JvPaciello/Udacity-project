@@ -1,6 +1,9 @@
 function Book({ book, onMove }) {
     const thumbnail = book.imageLinks?.thumbnail || ""; // Fallback if no thumbnail
   
+    //Function to check if the book is already on a shelf or not
+    const isOnShelf = book.shelf && book.shelf !== "none";
+
     return (
       <div className="book">
         <div className="book-top">
@@ -13,7 +16,7 @@ function Book({ book, onMove }) {
               value={book.shelf || "none"}
               onChange={(e) => onMove(book, e.target.value)}
             >
-              <option value="none" disabled>Move to...</option>
+              <option value="none" disabled>{isOnShelf ? "Move to..." : "Add to..."}</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
