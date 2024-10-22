@@ -3,16 +3,17 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Bookshelf from "./components/Bookshelf";
 import SearchPage from "./components/SearchPage";
-import { get, getAll, update } from "./BooksAPI";
-function App() {
-  const [books, setBooks] = useState([]);
+import { getAll, update } from "./BooksAPI";
 
-  //load the books when the app is initializated
+function App() {
+  const [books, setBooks] = useState([]); // State to store books
+
+  // Load books from the API when the component mounts
   useEffect(() => {
     getAll().then((data) => setBooks(data));
   }, []);
 
-  //function to move the books between shelves
+  // Function to move books between shelves and update the state
   const moveBook = (book, shelf) => {
     update(book, shelf).then(() => {
       setBooks((prevBooks) =>
@@ -25,6 +26,7 @@ function App() {
     <Router>
       <div className="app">
         <Routes>
+          {/* Main page displaying bookshelves */}
           <Route
             path="/"
             element={
@@ -55,6 +57,7 @@ function App() {
               </div>
             }
           />
+          {/* Search page */}
           <Route
             path="/search"
             element={<SearchPage books={books} onMove={moveBook} />}
