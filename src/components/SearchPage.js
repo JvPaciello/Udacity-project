@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { search } from "../BooksAPI";
 import Book from "./Book"; // Correct import
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function SearchPage({ books, onMove }) {
   const [query, setQuery] = useState(""); // State for search query
   const [results, setResults] = useState([]); // State for search results
-  const navigate = useNavigate(); // Navigate hook
 
   // Handle user input in the search field
   const handleSearch = (e) => {
@@ -15,26 +14,35 @@ function SearchPage({ books, onMove }) {
 
     if (value) {
       search(value, 20).then((res) => {
-        setResults(res.error ? [] : res);
+        if (res.error) {
+          setResults([]);
+        } else {
+          const updatedResults = res.map((book) => {
+            const foundBook = books.find((b) => b.id === book.id);
+            return { ...book, shelf: foundBook ? foundBook.shelf : "none" };
+          });
+          setResults(updatedResults);
+          console.log(updatedResults);
+        }
       });
     } else {
       setResults([]);
     }
   };
 
-  // Get the current shelf of a book if it exists
-  const getShelf = (book) => {
-    const foundBook = books.find((b) => b.id === book.id);
-    return foundBook ? foundBook.shelf : "none";
-  };
-
   // Function called when a user move a book
-  const handleMove = (book,shelf)=>{
-    onMove(book,shelf);
-    navigate("/");
+  const handleMove = (book, shelf) => {
+    onMove(book, shelf);
+    setResults((prevResults) =>
+      prevResults.map((b) =>
+        b.id === book.id ? { ...b, shelf } : b
+      )
+    );
+
   };
 
   return (
+
     <div className="search-books">
       <div className="search-books-bar">
         <Link to="/" className="close-search">Close</Link>
@@ -52,11 +60,12 @@ function SearchPage({ books, onMove }) {
           {results.map((book) => (
             <Book
               key={book.id}
-              book={{ ...book, shelf: getShelf(book) }}
+              book={book} // Já contém o shelf atualizado
               onMove={handleMove}
             />
           ))}
         </ol>
+
       </div>
     </div>
   );
