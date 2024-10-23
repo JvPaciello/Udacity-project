@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+const shelves = [
+  { id: "1", shelfName: "currentlyReading", shelfDisplayName: "Currently Reading" },
+  { id: "2", shelfName: "wantToRead", shelfDisplayName: "Want to Read" },
+  { id: "3", shelfName: "read", shelfDisplayName: "Read" },
+  { id: "4", shelfName: "none", shelfDisplayName: "None" },
+]
 
 function Book({ book, onMove }) {
   const thumbnail = book.imageLinks?.thumbnail || ""; // Use book thumbnail or fallback to an empty string
@@ -15,7 +22,10 @@ function Book({ book, onMove }) {
     img.style.width = "128px";
     img.style.height = "193px";
 
-    e.dataTransfer.setDragImage(img, 64, 96); 
+
+
+
+    e.dataTransfer.setDragImage(img, 64, 96);
   };
 
   return (
@@ -47,10 +57,11 @@ function Book({ book, onMove }) {
             <option value="none" disabled>
               {isOnShelf ? "Move to..." : "Add to..."}
             </option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="wantToRead">Want to Read</option>
-            <option value="read">Read</option>
-            <option value="none">None</option>
+            {shelves.map((shelf) => (
+              <option key={shelf.id} value={shelf.shelfName}>
+                {shelf.shelfDisplayName}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -61,5 +72,16 @@ function Book({ book, onMove }) {
     </div>
   );
 }
-
+Book.propTypes = {
+  book: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    imageLinks: PropTypes.shape({
+      thumbnail: PropTypes.string,
+    }),
+    shelf: PropTypes.string,
+  }).isRequired,
+  onMove: PropTypes.func.isRequired,
+};
 export default Book;
