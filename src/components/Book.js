@@ -54,7 +54,7 @@ function Book({ book, onMove }) {
             onChange={(e) => onMove(book, e.target.value)} // Handle shelf change
           >
             {/* Display "Add to..." or "Move to..." based on book's presence on a shelf */}
-            <option value="none" disabled>
+            <option disabled>
               {isOnShelf ? "Move to..." : "Add to..."}
             </option>
             {shelves.map((shelf) => (
