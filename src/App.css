@@ -15,13 +15,13 @@ body,
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #000000;
   text-align: center;
 }
 .list-books-title h1 {
   font-weight: 400;
   margin: 0;
-  color: white;
+  color: rgb(40, 255, 40);
 }
 
 .list-books-content {
@@ -56,13 +56,20 @@ body,
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #000000;
   background-image: url("./icons/add.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   font-size: 0;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.open-search a:hover {
+  transform: scale(1.08);
+  background-color: #388E3C;
+  color: aliceblue;
 }
 
 /* search page */
@@ -112,7 +119,6 @@ body,
   list-style-type: none;
   padding: 0;
   margin: 0;
-
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -150,12 +156,19 @@ body,
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #000000;
   background-image: url("./icons/arrow-drop-down.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: transform 0.8s ease;
+}
+.book-shelf-changer:hover{
+  background-color: #388E3C;
+  color: aliceblue;
+  transform: translateY(-10px) scale(1.05) !important;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .book-shelf-changer select {
   width: 100%;
@@ -163,7 +176,6 @@ body,
   opacity: 0;
   cursor: pointer;
 }
-
 /* book cover */
 
 .book-cover {
