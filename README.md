@@ -22,6 +22,9 @@ Search for books and add them to a shelf.
 - HTML/CSS
 - node.js & npm
 
+## Deployment
+The website is deployed at vercel: https://estante.vercel.app/
+
 ## Notes
 During the development of the MyReads project, I used various resources, including the assistance of AI tools like ChatGPT, to solve specific problems and enhance my implementation. However, all the modifications and functionalities in the code were implemented based on my understanding, ensuring that the final work reflects my learning and mastery of the concepts.
   
