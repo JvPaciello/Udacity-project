@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Bookshelf from "./components/Bookshelf";
 import SearchPage from "./components/SearchPage";
-import BookDetail from "./components/BookDetail"; 
+import BookDetail from "./components/BookDetail";
+import BookParticles from "./components/BookParticles";
 import { getAll, update } from "./BooksAPI";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
   return (
     <Router>
       <div className="app">
+        <BookParticles />
         <Routes>
           <Route
             path="/"
