@@ -1,13 +1,44 @@
-html {
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+:root {
+  /* Palette — unified dark */
+  --bg:          #0D0D1A;
+  --surface:     #13132B;
+  --surface-2:   #1A1A36;
+  --accent:      #6366F1;
+  --accent-dim:  #4F46E5;
+  --accent-glow: rgba(99,102,241,0.22);
+
+  /* Shelf accent colours */
+  --s1: #6366F1;
+  --s2: #F59E0B;
+  --s3: #10B981;
+
+  /* Text */
+  --text:        #F1F5F9;
+  --text-muted:  #94A3B8;
+  --text-light:  #64748B;
+
+  /* Structure */
+  --border:      rgba(255,255,255,0.07);
+  --radius-card: 16px;
+  --radius-book: 6px;
+
+  /* Shadows */
+  --sh-card:   0 1px 0 rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.5);
+  --sh-book:   2px 4px 14px rgba(0,0,0,0.5);
+  --sh-book-h: 6px 18px 32px rgba(0,0,0,0.65);
+  --sh-fab:    0 4px 16px rgba(99,102,241,0.5);
 }
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
 }
